@@ -49,6 +49,6 @@ psutil~=5.9.4
 chardet~=3.0.4
 future~=0.18.3
 python-telegram-bot~=20.1
-revChatGPT~=2.3.0
+revChatGPT~=2.3.2
 asyncio~=3.4.3
 Flask~=2.2.3

@@ -34,7 +34,7 @@ def VKGetAttachments(selected_images, vk_group_id, name, vk_message_prompt ):
             return
 
         # Скачиваем картинки
-        print(name + " Скачиваю изображение с Яндекс Диска")
+        print(f"{name}: Скачиваю изображение с Яндекс Диска")
         image_url = image['file']
         image_data = requests.get(image_url).content
 
@@ -70,7 +70,7 @@ def VKGetAttachments(selected_images, vk_group_id, name, vk_message_prompt ):
 
 def VKPostCreate(name, vk_group_id, vk_message_prompt,available_images, attachments,disk_folder_id, notifications):
     # Создаем пост в группе ВК
-    print(name + " Публикую пост в группу - " + vk_group_id)
+    print(f"{name}: Публикую пост в группу - " + vk_group_id)
     url = "https://api.vk.com/method/wall.post"
     params = {
         "access_token": config.vk_token,
@@ -81,12 +81,10 @@ def VKPostCreate(name, vk_group_id, vk_message_prompt,available_images, attachme
     }
     response = requests.post(url, params=params)
     data = json.loads(response.text)
-    print(response)
-    print(data)
     # Отправляем уведомление от имени группы ВК
     if 'response' in data:
         if notifications:
-            print(name + " Пост в группе был успешно опубликован.")
+            print(f"{name}: Пост в группе был успешно опубликован.")
             print(datetime.now().time())
             random_id = random.randint(1, 2 ** 63 - 1)
             vk_message_text = f'Пост в группе был успешно опубликован. Осталось {len(available_images)} изображений. Не забудьте вовремя пополнить каталог {disk_folder_id} на Яндекс Диске.'

@@ -20,12 +20,12 @@ def vk_upload(img_count,vk_group_id,vk_group_name,vk_posting_type,disk_folder_id
                         VKNotifyNoImages(vk_group_name, disk_folder_id, vk_group_id, available_images, img_count)
                         return
             except:
-                print(f"{vk_group_name} Не удалось загрузить файлы с Яндекс Диска")
-                print(f"{vk_group_name} Пост не будет опубликован. Проверьте доступность Яндекс диска.")
+                print(f"{vk_group_name}: Не удалось загрузить файлы с Яндекс Диска")
+                print(f"{vk_group_name}: Пост не будет опубликован. Проверьте доступность Яндекс диска.")
                 return
             # Выбираем случайные картинки для поста
             selected_images = random.sample(available_images, img_count)
-            print(vk_group_name + " Случайные изображения выбраны")
+            print(f"{vk_group_name}: Случайные изображения выбраны")
             # Генерируем текст для поста с помощью ChatGPT
             if config.use_GPT:
                 if conversation_id=="default":
@@ -47,8 +47,8 @@ def vk_upload(img_count,vk_group_id,vk_group_name,vk_posting_type,disk_folder_id
             try:
                 available_images, folder, used_item_id = YDLoadImagesFromSubfolders(vk_group_name, disk_folder_id)
             except:
-                print(f"{vk_group_name} Не удалось загрузить файлы с Яндекс Диска")
-                print(f"{vk_group_name} Пост не будет опубликован. Проверьте доступность Яндекс диска.")
+                print(f"{vk_group_name}: Не удалось загрузить файлы с Яндекс Диска")
+                print(f"{vk_group_name}: Пост не будет опубликован. Проверьте доступность Яндекс диска.")
                 return
             # Проверяем хватит ли картинок для поста
 
@@ -75,7 +75,7 @@ def vk_upload(img_count,vk_group_id,vk_group_name,vk_posting_type,disk_folder_id
             YDMoveFolder(vk_group_name, used_item_id, config.disk_used_images_path)
         # Если получена некорректная команда - не делать ничего
         case _:
-            print(f"{vk_group_name} Некорректный метод загрузки:  {vk_posting_type}")
+            print(f"{vk_group_name}: Некорректный метод загрузки:  {vk_posting_type}")
             return
 
     return

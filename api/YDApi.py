@@ -26,7 +26,7 @@ def YDLoadAllImages(vk_group_name, disk_folder_id):
     #try:
     available_images = [i for i in images_list if i['type'] == 'file' and i['mime_type'].startswith('image/')]
 
-    print(f"{vk_group_name} {len(available_images)} изображений в каталоге.")
+    print(f"{vk_group_name}: {len(available_images)} изображений в каталоге.")
     return available_images
     #except:
     #    print(f"{vk_group_name} Ошибка работы Яндекс Диска")
@@ -38,12 +38,12 @@ def YDLoadImagesFromSubfolders(vk_group_name, disk_folder_id):
     try:
         folders_list = yd.listdir(disk_folder_id)
     except exceptions.YaDiskError as e:
-        print(f"{vk_group_name} Не удалось подключиться к Яндекс Диску. {e}")
-        print(f"{vk_group_name} Проверьте корректность Яндекс токена. {e}")
+        print(f"{vk_group_name}: Не удалось подключиться к Яндекс Диску. {e}")
+        print(f"{vk_group_name}: Проверьте корректность Яндекс токена. {e}")
         return
     except exceptions.PathNotFoundError as e:
-        print(f"{vk_group_name} каталог с изображениями {disk_folder_id} не найден. {e}")
-        print(f"{vk_group_name} Проверьте корректность пути к каталогу изображений в настройках бота")
+        print(f"{vk_group_name}: каталог с изображениями {disk_folder_id} не найден. {e}")
+        print(f"{vk_group_name}: Проверьте корректность пути к каталогу изображений в настройках бота")
         return
 
     # Проверка существования подкаталогов в главном каталоге
@@ -51,10 +51,10 @@ def YDLoadImagesFromSubfolders(vk_group_name, disk_folder_id):
         unuploaded_folders = [folder for folder in folders_list if
                           folder['type'] == 'dir' and folder['name']]
     except:
-        print(f"{vk_group_name} Ошибка работы Яндекс Диска")
+        print(f"{vk_group_name}: Ошибка работы Яндекс Диска")
         return
     if not unuploaded_folders:
-        print(f"{vk_group_name} Все папки уже были загружены.")
+        print(f"{vk_group_name}: Все папки уже были загружены.")
         available_images = ''
         folder_name = ''
         used_item_id = ''
@@ -65,17 +65,17 @@ def YDLoadImagesFromSubfolders(vk_group_name, disk_folder_id):
     try:
         images_list = yd.listdir(unuploaded_folder['path'])
     except exceptions.YaDiskError as e:
-        print(f"{vk_group_name} Не удалось подключиться к Яндекс Диску. {e}")
-        print(f"{vk_group_name} Проверьте корректность Яндекс токена. {e}")
+        print(f"{vk_group_name}: Не удалось подключиться к Яндекс Диску. {e}")
+        print(f"{vk_group_name}: Проверьте корректность Яндекс токена. {e}")
         return
     except exceptions.PathNotFoundError as e:
-        print(f"{vk_group_name} каталог с изображениями {unuploaded_folder['path']} не найден. {e}")
-        print(f"{vk_group_name} Проверьте корректность пути к каталогу изображений в настройках бота")
+        print(f"{vk_group_name}: каталог с изображениями {unuploaded_folder['path']} не найден. {e}")
+        print(f"{vk_group_name}: Проверьте корректность пути к каталогу изображений в настройках бота")
         return
     # обрабатываем список полученных изображений в алфавитном порядке
     images_list = [i for i in sorted(images_list, key=lambda x: int(x['name'].split('.')[0])) if
                    i['type'] == 'file' and i['mime_type'].startswith('image/')]
-    print(f"{vk_group_name} {len(images_list)} изображений в каталоге {unuploaded_folder['path']}.")
+    print(f"{vk_group_name}: {len(images_list)} изображений в каталоге {unuploaded_folder['path']}.")
 
     # Обрабатываем имя и путь каталога
     folder_name=unuploaded_folder['name']
@@ -115,10 +115,10 @@ def YDMoveFolder(vk_group_name, source_folder_id, destination_folder_id):
             yd.mkdir(new_folder_path)
         except:
             # Если каталог уже существует - генерируем случайное число и добавляем его к имени
-            print(f"{vk_group_name} Каталог {new_folder_path} уже существует.")
+            print(f"{vk_group_name}: Каталог {new_folder_path} уже существует.")
             rnd = random.randint(1, 2 ** 63 - 1)
             new_folder_path = new_folder_path+"_duplicate_"+str(rnd)
-            print(f"{vk_group_name} Создаем новый каталог {new_folder_path}")
+            print(f"{vk_group_name}: Создаем новый каталог {new_folder_path}")
             yd.mkdir(new_folder_path)
 
         # Копируем информацию из старого каталога в новый
@@ -129,20 +129,20 @@ def YDMoveFolder(vk_group_name, source_folder_id, destination_folder_id):
                     new_file_path = new_folder_path + '/' + file['name']
                     yd.copy(file_path, new_file_path, overwrite=True)
         except exceptions.YaDiskError as e:
-            print(f"{vk_group_name} Ошибка перемещения каталога: {e}")
+            print(f"{vk_group_name}: Ошибка перемещения каталога: {e}")
             return False
         try:
             # Удаляем старый каталог
             yd.remove(source_folder_id)
         except exceptions.YaDiskError as e:
-            print(f"{vk_group_name} Ошибка удаления старого каталога: {e}")
+            print(f"{vk_group_name}: Ошибка удаления старого каталога: {e}")
             return False
 
-        print(f"{vk_group_name} Каталог {source_folder_info['name']} был перемещен в {new_folder_path}")
+        print(f"{vk_group_name}: Каталог {source_folder_info['name']} был перемещен в {new_folder_path}")
         return True
 
     except exceptions.YaDiskError as e:
-        print(f"{vk_group_name} Ошибка перемещения каталога: {e}")
+        print(f"{vk_group_name}: Ошибка перемещения каталога: {e}")
         return False
 
 
@@ -156,7 +156,7 @@ def YDMoveSelectedImages(source_folder_id, selected_images,available_images, des
             new_folder_path = destination_folder_id + '/' + source_folder_info['name']
             yd.mkdir(new_folder_path)
         except:
-            print("Каталог уже существует.")
+            print()
 
         # Перемещаем файлы в новый каталог для использованных изображений
         for image in selected_images:
@@ -165,10 +165,7 @@ def YDMoveSelectedImages(source_folder_id, selected_images,available_images, des
                 if file['name'] == image['name']:
                     file_path = source_folder_id + '/' + file['name']
                     new_file_path = new_folder_path + '/' + file['name']
-                    print(f"Copying {file_path} to {new_file_path}")
                     yd.move(file_path, new_file_path, overwrite=True)
-
-        print(f"{len(selected_images)} images moved from {source_folder_info['name']} to {new_folder_path}")
         return True
 
     except exceptions.YaDiskError as e:
