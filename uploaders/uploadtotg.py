@@ -1,13 +1,13 @@
 import random
 import config
 from api.TGApi import TGNoImages, TGSendPost
-from api.YDApi import YDDownloadImages, YDMoveSelectedImages, YDLoadAllImages
+from api.YDApi import YDDownloadToTG, YDMoveSelectedImages, YDLoadAllImages
 
 
-async def tg_upload(img_count, name, disk_folder_id, used_images, post_text):
+async def tg_upload(img_count, name, disk_folder_id, post_text):
   available_images = []
   # Загружаем список картинок на Яндекс Диске
-  available_images=YDLoadAllImages(name, disk_folder_id, used_images)
+  available_images=YDLoadAllImages(name, disk_folder_id)
   # Проверяем хватит ли картинок для поста
   if (len(available_images)) < img_count:
     await TGNoImages(available_images, img_count, name, disk_folder_id)
@@ -15,7 +15,7 @@ async def tg_upload(img_count, name, disk_folder_id, used_images, post_text):
   selected_images = random.sample(available_images, img_count)
   print(name + " случайные изображения выбраны")
   # Подготавливаем картинки к загрузке
-  media_objects = YDDownloadImages(selected_images,post_text)
+  media_objects = YDDownloadToTG(selected_images, post_text)
   # Публикуем пост в группу
   await TGSendPost(name, media_objects, selected_images, disk_folder_id)
   # Добавляем использованные картинки в список

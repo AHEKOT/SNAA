@@ -15,12 +15,13 @@ except ImportError:
 
 from api.VKApi import VKChatBotCommentsParser, VKChatBotSetUp
 
-bot_type = "chat_bot1" #проверка типа бота. Не изменять.
+bot_type = "chat_bot" #проверка типа бота. Не изменять.
 
 #---------------------БЛОК-НАСТРОЕК------------------------------
-group_id = "217691628"
-access_token = os.environ['VKChat_217691628']
-group_name="AI-тян - Стимпанк аниме арт"
+group_id = "123456789"
+access_token = os.environ['VKChat_123456789']
+group_name="Название группы полностью"
+conversation_id = "e76d2b4c-8a14-4359-a9ea-007ec5f8b678"
 #---------------------БЛОК-НАСТРОЕК------------------------------
 
 print(f"ЧатБот для группы {group_name} загружен!")
@@ -28,4 +29,5 @@ club_id="club"+group_id
 msg_from_group=f"['{club_id}|{group_name}']"
 
 longpoll_server, longpoll_key, longpoll_ts = VKChatBotSetUp(group_id,group_name)
-VKChatBotCommentsParser(longpoll_server, longpoll_key, longpoll_ts, access_token, group_id, msg_from_group)
+VKChatBotCommentsParser(longpoll_server, longpoll_key, longpoll_ts, access_token, group_id, msg_from_group, conversation_id)
+

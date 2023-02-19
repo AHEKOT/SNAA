@@ -26,10 +26,10 @@ async def TGNoImages(available_images, img_count, name,disk_folder_id):
 async def TGSendPost(name, media_objects, available_images, disk_folder_id):
     # Отправляем сообщение с изображениями в канал Telegram
     try:
-        await bot.send_media_group(chat_id=name, media=media_objects)
+        await bot.send_media_group(name, media_objects)
         print(name + " Изображения успешно опубликованы")
         await bot.send_message(
-            name=config.user_id,
+            chat_id=config.user_id,
             text=f'Пост в группу {name} успешно опубликован. Осталось {len(available_images)} изображений доступных для публикации. Не забудьте вовремя пополнить каталог {disk_folder_id} на Яндекс Диске.')
 
     except Exception as e:

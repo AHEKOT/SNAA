@@ -12,6 +12,7 @@ def YDLoadAllImages(vk_group_name, disk_folder_id):
     # Загружаем список изображений из каталога на Яндекс Диске
     try:
         images_list = []
+        print(disk_folder_id)
         images_list = yd.listdir(disk_folder_id)
     except exceptions.YaDiskError as e:
         print(f"{vk_group_name}: Не удалось подключиться к Яндекс Диску. {e}")
@@ -25,7 +26,6 @@ def YDLoadAllImages(vk_group_name, disk_folder_id):
     # Проверяем что все полученные файлы - изображения
     #try:
     available_images = [i for i in images_list if i['type'] == 'file' and i['mime_type'].startswith('image/')]
-
     print(f"{vk_group_name}: {len(available_images)} изображений в каталоге.")
     return available_images
     #except:
@@ -85,7 +85,7 @@ def YDLoadImagesFromSubfolders(vk_group_name, disk_folder_id):
     return available_images, folder_name, used_item_id
 
 
-def YDDownloadImages(random_images,post_text):
+def YDDownloadToTG(random_images,post_text):
     media_objects = []
     # Загружаем изображения с диска во временный файл
     for image in random_images:

@@ -97,7 +97,6 @@ def VKPostCreate(name, vk_group_id, vk_message_prompt,available_images, attachme
 
 
 def VKChatBotSetUp(group_id,group_name):
-    print(f"{group_name}: Подключаемся к группе Вконтакте...")
     global longpoll_server
     global longpoll_key
     global longpoll_ts
@@ -105,7 +104,6 @@ def VKChatBotSetUp(group_id,group_name):
         url = "https://api.vk.com/method/groups.getLongPollServer"
         params = {"group_id": group_id, "access_token": config.vk_token, "v": config.vk_api_version}
         response = requests.get(url, params=params).json()
-        print(f"{group_name}: Подключение установлено!")
     except:
         print(f"{group_name}: Ошибка подключения к LongPoll Серверу. Проверьте корректность токена")
         return
@@ -120,7 +118,7 @@ def VKChatBotSetUp(group_id,group_name):
     return longpoll_server, longpoll_key, longpoll_ts
 
 
-def VKChatBotCommentsParser(longpoll_server, longpoll_key, longpoll_ts,access_token, group_id, msg_from_group):
+def VKChatBotCommentsParser(longpoll_server, longpoll_key, longpoll_ts,access_token, group_id, msg_from_group,conversation_id):
         while True:
             try:
                 response = requests.get(
@@ -143,7 +141,7 @@ def VKChatBotCommentsParser(longpoll_server, longpoll_key, longpoll_ts,access_to
                         if from_id > 0:
                             print(f"{msg_from_group}: Получен новый комментарий!")
                             try:
-                                answer = GPTChatQueue(message, group_id,msg_from_group, config.gpt_conversation_id)
+                                answer = GPTChatQueue(message, group_id,msg_from_group, conversation_id)
                             except:
                                 print(f"{msg_from_group}: Не удалось получить ответ от ChatGPT")
                                 continue

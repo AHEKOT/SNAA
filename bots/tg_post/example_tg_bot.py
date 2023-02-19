@@ -20,7 +20,7 @@ except ImportError:
 import config
 from uploaders.uploadtotg import tg_upload
 
-bot_type = "tg_bot1" #проверка типа бота. Не изменять.
+bot_type = "tg_bot" #проверка типа бота. Не изменять.
 
 #---------------------БЛОК-НАСТРОЕК------------------------------
 img_count = 4  #Количество картинок в посте. Не больше 10.
@@ -33,7 +33,7 @@ timers = ["12:00:00", "13:00:00", "14:00:00"] #время загрузки по�
 def run():
   print("Телеграм бот для канала "+name+" запущен по таймеру.")
   asyncio.run(
-    tg_upload(img_count, name, disk_folder_id, used_images,post_text))
+    tg_upload(img_count, name, disk_folder_id,post_text))
   return
 
 for t in timers:
@@ -43,7 +43,7 @@ for t in timers:
 
 print("Телеграм бот для канала "+name+" загружен")
 print("Время запуска установлено на: "+str(timers))
-
+run()
 while True:
   schedule.run_pending()
   time.sleep(1)
