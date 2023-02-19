@@ -34,6 +34,9 @@ def StartUpChekBots():
         if config.use_chat_bot:
             StartUpBots(config.chat_path, "chat_bot")
 
+    if config.use_ig_bot:
+        StartUpBots(config.IG_path, "ig_bot")
+
     return
 
 

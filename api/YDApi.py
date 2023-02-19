@@ -14,12 +14,12 @@ def YDLoadAllImages(vk_group_name, disk_folder_id):
         images_list = []
         images_list = yd.listdir(disk_folder_id)
     except exceptions.YaDiskError as e:
-        print(f"{vk_group_name} Не удалось подключиться к Яндекс Диску. {e}")
-        print(f"{vk_group_name} Проверьте корректность Яндекс токена. {e}")
+        print(f"{vk_group_name}: Не удалось подключиться к Яндекс Диску. {e}")
+        print(f"{vk_group_name}: Проверьте корректность Яндекс токена. {e}")
         return
     except exceptions.PathNotFoundError as e:
-        print(f"{vk_group_name} каталог с изображениями {disk_folder_id} не найден. {e}")
-        print(f"{vk_group_name} Проверьте корректность пути к каталогу изображений в настройках бота"
+        print(f"{vk_group_name}: каталог с изображениями {disk_folder_id} не найден. {e}")
+        print(f"{vk_group_name}: Проверьте корректность пути к каталогу изображений в настройках бота"
               )
         return
     # Проверяем что все полученные файлы - изображения
@@ -93,7 +93,6 @@ def YDDownloadImages(random_images,post_text):
             image_path = temp_file.name
             try:
                 # скачиваем файл
-                #print(image['path'])
                 yd.download(src_path=image['path'], path_or_file=image_path)
             except exceptions.PathNotFoundError as e:
                 print(e)
@@ -103,6 +102,21 @@ def YDDownloadImages(random_images,post_text):
             media_objects.append(
                 telegram.InputMediaPhoto(media=media_bytes, caption=post_text))
     return media_objects
+
+def YDDownloadToIG(selected_images,name):
+    file_paths = []
+    # Загружаем изображения с диска во временный файл
+    for image in selected_images:
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            image_path = temp_file.name
+            try:
+                # скачиваем файл
+                yd.download(src_path=image['path'], path_or_file=image_path)
+                file_paths.append(image_path)
+            except exceptions.PathNotFoundError as e:
+                print(e)
+                continue
+    return file_paths
 
 def YDMoveFolder(vk_group_name, source_folder_id, destination_folder_id):
     try:
@@ -169,5 +183,5 @@ def YDMoveSelectedImages(source_folder_id, selected_images,available_images, des
         return True
 
     except exceptions.YaDiskError as e:
-        print(f"Error moving images: {e}")
+        print(f"Ошибка перемещения файла: {e}")
         return False
