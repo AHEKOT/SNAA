@@ -35,7 +35,7 @@ while True:
         response = requests.head(config.link)
         response.raise_for_status()
     except requests.exceptions.Timeout as errt:
-        print ("Timeout Error:",errt)
+        print("Timeout Error:", errt)
     except requests.exceptions.RequestException as err:
-        print ("Something Else",err)
+        print("Something Else", err)
     time.sleep(60)

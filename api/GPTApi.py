@@ -10,6 +10,7 @@ lock = Lock()
 
 
 def GPTChekPromptRestrictions(prompt):
+    # список запрещенных фраз для чатгпт
     predefined_phrases = {
         "act",
         "behave",
@@ -17,9 +18,11 @@ def GPTChekPromptRestrictions(prompt):
         "imitate",
         "forget",
         "clear",
+        "erase",
         "забудь все",
         "веди себя как",
         "притворись",
+        "сотри",
     }
     prompt_lower = prompt.lower()
     for phrase in predefined_phrases:
@@ -28,14 +31,12 @@ def GPTChekPromptRestrictions(prompt):
     return False
 
 
-
-
-
 def GPTSetUpBot():
     chatbot = Chatbot(config={
         "access_token": config.gpt_token
     })
     return chatbot
+
 
 def GPTAnswer(prompt, conversation_id, identifier):
     chatbot = GPTSetUpBot()
@@ -44,6 +45,7 @@ def GPTAnswer(prompt, conversation_id, identifier):
     for data in chatbot.ask(prompt, conversation_id):
         answer = data["message"]
     return answer, identifier
+
 
 def GPTChatBot(message, group_id,msg_from_group, conversation_id,identifier):
   chatbot = GPTSetUpBot()
@@ -74,7 +76,6 @@ def GPTChatBot(message, group_id,msg_from_group, conversation_id,identifier):
     return response
 
 
-
 def GPTQueue(prompt, conversation_id):
     identifier = str(random.randint(1, 1000000))
     answer, id = GPTAnswer(prompt, conversation_id, identifier)
@@ -88,6 +89,7 @@ def GPTQueue(prompt, conversation_id):
 
         # Use the generated answer as needed
     return answer
+
 
 def GPTChatQueue(message,group_name,msg_from_group, conversation_id):
     identifier = str(random.randint(1, 1000000))

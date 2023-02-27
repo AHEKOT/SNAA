@@ -18,8 +18,9 @@ def StartUpBots(path, bot_type):
       with open(f"{path}/{file}") as f:
         content = f.read()
         if re.search(f"bot_type = \"{bot_type}\"", content):
-          subprocess.Popen(["python", f"{path}/{file}"])
-          time.sleep(10)
+          process = subprocess.Popen(["python", f"{path}/{file}"])
+          print(process)
+          time.sleep(3)
   return
 
 
@@ -47,6 +48,6 @@ def StartUpReplit():
         print("Скрипт работает на серисе Replit.com")
         print("Запускам режим поддержки работоспособности")
         subprocess.Popen(["python", "ReplitMonitor.py"])
-        time.sleep(5)
+        time.sleep(3)
     except ImportError:
         return

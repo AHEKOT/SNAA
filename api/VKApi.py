@@ -4,7 +4,6 @@ import random
 import config
 import time
 from datetime import datetime
-
 from api.GPTApi import GPTChatQueue
 
 
@@ -126,7 +125,6 @@ def VKChatBotCommentsParser(longpoll_server, longpoll_key, longpoll_ts,access_to
                 ).json()
                 longpoll_ts = response['ts']
             except:
-                print(f"{msg_from_group}: Ошибка подключения к Longpoll серверу. Переподключаемся..." + "\n")
                 longpoll_server, longpoll_key, longpoll_ts = VKChatBotSetUp(group_id,msg_from_group)
                 continue
 

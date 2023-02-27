@@ -28,7 +28,7 @@ def vk_upload(img_count,vk_group_id,vk_group_name,vk_posting_type,disk_folder_id
             print(f"{vk_group_name}: Случайные изображения выбраны")
             # Генерируем текст для поста с помощью ChatGPT
             if config.use_GPT:
-                if conversation_id=="default":
+                if conversation_id == "default":
                     vk_message_prompt = GPTQueue(vk_message_prompt, config.gpt_conversation_id)
                 else:
                     vk_message_prompt = GPTQueue(vk_message_prompt, conversation_id)

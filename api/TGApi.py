@@ -23,15 +23,18 @@ async def TGNoImages(available_images, img_count, name,disk_folder_id):
     return
 
 
-async def TGSendPost(name, media_objects, available_images, disk_folder_id):
+async def TGSendPost(name, media_objects, disk_folder_id,available_images,post_text):
+    tg_images=[]
+    for media in media_objects:
+        tg_images.append(telegram.InputMediaPhoto(media=media, caption=post_text))
     # Отправляем сообщение с изображениями в канал Telegram
     try:
-        await bot.send_media_group(name, media_objects)
-        print(name + " Изображения успешно опубликованы")
+        await bot.send_media_group(name, tg_images)
+        print(f"{name}: Изображения успешно опубликованы")
         await bot.send_message(
             chat_id=config.user_id,
             text=f'Пост в группу {name} успешно опубликован. Осталось {len(available_images)} изображений доступных для публикации. Не забудьте вовремя пополнить каталог {disk_folder_id} на Яндекс Диске.')
 
     except Exception as e:
-        print(name + " Не удалось опубликовать изображения: ", e)
+        print(f"{name}: Не удалось опубликовать изображения: ", e)
     return

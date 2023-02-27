@@ -11,7 +11,7 @@ def UploadToIG(img_count, ig_name, ig_password, disk_folder_id, caption):
     selected_images = random.sample(available_images, img_count)
     print(f"{ig_name}: случайные изображения выбраны")
     # Подготавливаем картинки к загрузке
-    file_paths = YDDownloadToIG(selected_images, ig_password)
+    file_paths = YDDownloadToIG(selected_images)
     try:
         IGUploadImage(file_paths, caption, ig_name, ig_password)
         print(f"{ig_name}: Изображения успешно опубликованы")

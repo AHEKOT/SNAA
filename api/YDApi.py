@@ -1,6 +1,5 @@
 import random
 import tempfile
-import telegram
 from yadisk import YaDisk, exceptions
 import config
 
@@ -12,7 +11,6 @@ def YDLoadAllImages(vk_group_name, disk_folder_id):
     # Загружаем список изображений из каталога на Яндекс Диске
     try:
         images_list = []
-        print(disk_folder_id)
         images_list = yd.listdir(disk_folder_id)
     except exceptions.YaDiskError as e:
         print(f"{vk_group_name}: Не удалось подключиться к Яндекс Диску. {e}")
@@ -85,7 +83,7 @@ def YDLoadImagesFromSubfolders(vk_group_name, disk_folder_id):
     return available_images, folder_name, used_item_id
 
 
-def YDDownloadToTG(random_images,post_text):
+def YDDownloadToTG(random_images):
     media_objects = []
     # Загружаем изображения с диска во временный файл
     for image in random_images:
@@ -99,11 +97,10 @@ def YDDownloadToTG(random_images,post_text):
             with open(image_path, 'rb') as f:
                 media_bytes = f.read()
             # Добавляем файл в список для дальнейшей публикации
-            media_objects.append(
-                telegram.InputMediaPhoto(media=media_bytes, caption=post_text))
+            media_objects.append(media_bytes)
     return media_objects
 
-def YDDownloadToIG(selected_images,name):
+def YDDownloadToIG(selected_images):
     file_paths = []
     # Загружаем изображения с диска во временный файл
     for image in selected_images:
@@ -175,7 +172,6 @@ def YDMoveSelectedImages(source_folder_id, selected_images,available_images, des
         # Перемещаем файлы в новый каталог для использованных изображений
         for image in selected_images:
             for file in available_images:
-                #print(f"Processing file {file['name']}")
                 if file['name'] == image['name']:
                     file_path = source_folder_id + '/' + file['name']
                     new_file_path = new_folder_path + '/' + file['name']

@@ -13,10 +13,11 @@ async def tg_upload(img_count, name, disk_folder_id, post_text):
     await TGNoImages(available_images, img_count, name, disk_folder_id)
   # Выбираем случайные картинки для поста
   selected_images = random.sample(available_images, img_count)
-  print(name + " случайные изображения выбраны")
+  print(name + ": случайные изображения выбраны")
   # Подготавливаем картинки к загрузке
-  media_objects = YDDownloadToTG(selected_images, post_text)
+  media_objects = YDDownloadToTG(selected_images)
+  print(name + ": изображения подготовлены для публикации")
   # Публикуем пост в группу
-  await TGSendPost(name, media_objects, selected_images, disk_folder_id)
+  await TGSendPost(name, media_objects, disk_folder_id, available_images, post_text)
   # Добавляем использованные картинки в список
   YDMoveSelectedImages(disk_folder_id, selected_images, available_images, config.disk_used_images_path)

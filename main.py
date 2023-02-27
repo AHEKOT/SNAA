@@ -1,7 +1,7 @@
 import time
 from StartUp import StartUpChekBots, StartUpTime, StartUpReplit
 # SNAA - SocialNetworksAutoAdmin
-# Version = 1.5.1
+# Version = 1.5.5
 # modules - telegram, vkontakte, instagram, ChatGPT, YandexDisk
 
 # Выводим текущее время на сервере
