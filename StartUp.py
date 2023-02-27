@@ -18,8 +18,7 @@ def StartUpBots(path, bot_type):
       with open(f"{path}/{file}") as f:
         content = f.read()
         if re.search(f"bot_type = \"{bot_type}\"", content):
-          process = subprocess.Popen(["python", f"{path}/{file}"])
-          print(process)
+          subprocess.Popen(["python", f"{path}/{file}"])
           time.sleep(3)
   return
 
